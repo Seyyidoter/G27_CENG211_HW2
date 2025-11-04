@@ -1,4 +1,4 @@
-package models;
+package model;
 
 /**
  * CSV 'I' rows: I, applicantID, familyIncome, dependents

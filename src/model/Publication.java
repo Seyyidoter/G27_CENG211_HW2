@@ -1,4 +1,4 @@
-package models;
+package model;
 
 /**
  * CSV 'P' rows: P, applicantID, title, impactFactor

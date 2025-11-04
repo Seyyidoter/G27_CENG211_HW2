@@ -1,4 +1,4 @@
-package system;
+package enums;
 
 public class RejectionReason {
 }

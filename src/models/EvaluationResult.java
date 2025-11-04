@@ -1,4 +1,4 @@
-package system;
+package models;
 
 public class EvaluationResult {
 }

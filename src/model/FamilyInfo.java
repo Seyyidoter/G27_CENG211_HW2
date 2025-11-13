@@ -5,7 +5,7 @@ package model;
  * Class invariant: dependents >= 0
  */
 public final class FamilyInfo {
-    private final double familyIncome; // monthly
+    private final double familyIncome;
     private final int dependents;
 
     public FamilyInfo(double familyIncome, int dependents) {

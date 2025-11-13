@@ -8,20 +8,20 @@ import java.util.List;
  */
 public class Applicant {
 
-    private final String id;          // applicant ID
-    private final String name;        // full name
-    private final double gpa;         // grade point average
-    private final double income;      // monthly income
-    private boolean transcriptValid;  // true if transcript is OK
-    private final List<Document> documents;     // list of documents
-    private final List<Publication> publications; // list of publications
+    private final String id;          // Applicant ID
+    private final String name;        // Full name
+    private final double gpa;         // Grade point average
+    private final double income;      // Income
+    private boolean transcriptValid;  // True if transcript is OK
+    private final List<Document> documents;     // List of documents
+    private final List<Publication> publications; // List of publications
 
     /**
      * Main constructor.
      * It checks data before saving.
      */
     public Applicant(String id, String name, double gpa, double income) {
-        // basic checks for null or invalid data
+        // Basic checks for null or invalid data
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("Applicant ID cannot be empty");
         }
@@ -41,7 +41,7 @@ public class Applicant {
         this.income = income;
         this.transcriptValid = false;
 
-        // create empty lists
+        // Create empty lists
         this.documents = new ArrayList<>();
         this.publications = new ArrayList<>();
     }
@@ -66,14 +66,14 @@ public class Applicant {
         this.documents = new ArrayList<>();
         for (Document d : other.documents) {
             if (d != null) {
-                this.documents.add(new Document(d)); // needs Document copy constructor
+                this.documents.add(new Document(d)); // Needs Document copy constructor
             }
         }
 
         this.publications = new ArrayList<>();
         for (Publication p : other.publications) {
             if (p != null) {
-                this.publications.add(new Publication(p)); // needs Publication copy constructor
+                this.publications.add(new Publication(p)); // Needs Publication copy constructor
             }
         }
     }

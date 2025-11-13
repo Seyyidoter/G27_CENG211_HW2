@@ -11,8 +11,8 @@ public class EvaluationResult {
     private final String scholarshipType; // Merit, Need, or Research
     private final boolean accepted;       // true = accepted, false = rejected
     private final String type;            // Full or Half
-    private final String duration;        // how long
-    private final String rejectionReason; // why rejected
+    private final String duration;        // How long
+    private final String rejectionReason; // Why rejected
 
     /**
      * Constructor for accepted applications.
@@ -20,7 +20,7 @@ public class EvaluationResult {
     public EvaluationResult(String applicantId, String name, String scholarshipType,
                             String type, String duration) {
 
-        // simple checks for null or empty
+        // Simple checks for null or empty
         this.applicantId = safeValue(applicantId);
         this.name = safeValue(name);
         this.scholarshipType = safeValue(scholarshipType);

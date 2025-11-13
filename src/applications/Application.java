@@ -17,15 +17,15 @@ import java.util.List;
  */
 public abstract class Application {
 
-    protected final String applicantId;          // applicant ID
-    protected final String name;                 // applicant name
-    protected final double gpa;                  // grade point average
-    protected final double income;               // monthly income
-    protected boolean transcriptValid;           // true if transcript is OK
-    protected final List<Document> documents;    // all documents
-    protected final List<Publication> publications; // all publications
+    protected final String applicantId;          // Applicant ID
+    protected final String name;                 // Applicant name
+    protected final double gpa;                  // Grade point average
+    protected final double income;               // Monthly income
+    protected boolean transcriptValid;           // true if transcript is ok
+    protected final List<Document> documents;    // All documents
+    protected final List<Publication> publications; // All publications
 
-    private static final DocumentType ENR = DocumentType.ENR; // enrollment document
+    private static final DocumentType ENR = DocumentType.ENR; // Enrollment document
 
     /**
      * Main constructor
@@ -33,7 +33,7 @@ public abstract class Application {
     public Application(String applicantId, String name, double gpa, double income) {
         validateConstructorParameters(applicantId, name, gpa, income);
 
-        // remove extra spaces
+        // Remove extra spaces
         this.applicantId = applicantId.trim();
         this.name = name.trim();
         this.gpa = gpa;
@@ -60,7 +60,7 @@ public abstract class Application {
         this.income = applicant.getIncome();
         this.transcriptValid = applicant.isTranscriptValid();
 
-        // copy documents
+        // Copy documents
         this.documents = new ArrayList<>();
         for (Document d : applicant.getDocuments()) {
             if (d != null) {
@@ -68,7 +68,7 @@ public abstract class Application {
             }
         }
 
-        // copy publications
+        // Copy publications
         this.publications = new ArrayList<>();
         for (Publication p : applicant.getPublications()) {
             if (p != null) {
@@ -135,12 +135,12 @@ public abstract class Application {
      * @return RejectionReason if not OK, or null if all is OK
      */
     protected RejectionReason performGeneralChecks() {
-        // must have enrollment paper
+        // Must have enrollment paper
         if (!hasDocument(ENR)) {
             return RejectionReason.MISSING_ENROLLMENT;
         }
 
-        // transcript must be valid
+        // Transcript must be valid
         if (!transcriptValid) {
             return RejectionReason.MISSING_TRANSCRIPT;
         }
@@ -149,8 +149,7 @@ public abstract class Application {
         if (gpa < 2.50) {
             return RejectionReason.GPA_BELOW_MINIMUM;
         }
-
-        // everything is OK
+        //Everything is ok
         return null;
     }
 

@@ -35,6 +35,7 @@ public class Main {
         for (EvaluationResult res : results) {
             // Already matches the required output format
             System.out.println(res.getFormattedResult());
+            System.out.println();
         }
     }
 }

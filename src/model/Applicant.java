@@ -62,7 +62,7 @@ public class Applicant {
         this.income = other.income;
         this.transcriptValid = other.transcriptValid;
 
-        // deep copy for lists
+        // Deep copy for lists
         this.documents = new ArrayList<>();
         for (Document d : other.documents) {
             if (d != null) {

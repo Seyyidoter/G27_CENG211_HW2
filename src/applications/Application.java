@@ -149,7 +149,6 @@ public abstract class Application {
         if (gpa < 2.50) {
             return RejectionReason.GPA_BELOW_MINIMUM;
         }
-        //Everything is ok
         return null;
     }
 

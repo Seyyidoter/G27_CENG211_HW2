@@ -1,5 +1,12 @@
 package applications;
 
+import enums.DocumentType;
+import enums.RejectionReason;
+import model.Applicant;
+import model.Document;
+import model.EvaluationResult;
+import model.Publication;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,15 +17,15 @@ import java.util.List;
  */
 public abstract class Application {
 
-    protected final String applicantId;      // applicant ID
-    protected final String name;             // applicant name
-    protected final double gpa;              // grade point average
-    protected final double income;           // monthly income
-    protected boolean transcriptValid;       // true if transcript is OK
+    protected final String applicantId;          // applicant ID
+    protected final String name;                 // applicant name
+    protected final double gpa;                  // grade point average
+    protected final double income;               // monthly income
+    protected boolean transcriptValid;           // true if transcript is OK
     protected final List<Document> documents;    // all documents
     protected final List<Publication> publications; // all publications
 
-    private static final String ENR = "ENR"; // code for enrollment document
+    private static final DocumentType ENR = DocumentType.ENR; // enrollment document
 
     /**
      * Main constructor
@@ -38,9 +45,40 @@ public abstract class Application {
     }
 
     /**
+     * Constructor from Applicant (deep copy).
+     */
+    public Application(Applicant applicant) {
+        if (applicant == null) {
+            throw new IllegalArgumentException("Cannot create Application from null Applicant");
+        }
+
+        validateConstructorParameters(applicant.getId(), applicant.getName(), applicant.getGpa(), applicant.getIncome());
+
+        this.applicantId = applicant.getId().trim();
+        this.name = applicant.getName().trim();
+        this.gpa = applicant.getGpa();
+        this.income = applicant.getIncome();
+        this.transcriptValid = applicant.isTranscriptValid();
+
+        // copy documents
+        this.documents = new ArrayList<>();
+        for (Document d : applicant.getDocuments()) {
+            if (d != null) {
+                this.documents.add(new Document(d));
+            }
+        }
+
+        // copy publications
+        this.publications = new ArrayList<>();
+        for (Publication p : applicant.getPublications()) {
+            if (p != null) {
+                this.publications.add(new Publication(p));
+            }
+        }
+    }
+
+    /**
      * Copy constructor
-     * Makes a new Application object with the same data.
-     * Lists are copied to make new ones (not shared).
      */
     public Application(Application other) {
         if (other == null) {
@@ -53,18 +91,17 @@ public abstract class Application {
         this.income = other.income;
         this.transcriptValid = other.transcriptValid;
 
-        // make new lists and copy items
         this.documents = new ArrayList<>();
         for (Document d : other.documents) {
             if (d != null) {
-                this.documents.add(new Document(d)); // needs copy constructor in Document
+                this.documents.add(new Document(d));
             }
         }
 
         this.publications = new ArrayList<>();
         for (Publication p : other.publications) {
             if (p != null) {
-                this.publications.add(new Publication(p)); // needs copy constructor in Publication
+                this.publications.add(new Publication(p));
             }
         }
     }
@@ -94,53 +131,48 @@ public abstract class Application {
 
     /**
      * Check basic rules before giving any scholarship.
-     * @return reason text if not OK, or null if all is OK
+     *
+     * @return RejectionReason if not OK, or null if all is OK
      */
-    protected String performGeneralChecks() {
+    protected RejectionReason performGeneralChecks() {
         // must have enrollment paper
         if (!hasDocument(ENR)) {
-            return "Missing Enrollment Certificate (ENR)";
+            return RejectionReason.MISSING_ENROLLMENT;
         }
 
         // transcript must be valid
         if (!transcriptValid) {
-            return "Transcript is not verified (expected Y)";
+            return RejectionReason.MISSING_TRANSCRIPT;
         }
 
         // GPA must be 2.50 or higher
         if (gpa < 2.50) {
-            return "GPA below 2.50";
+            return RejectionReason.GPA_BELOW_MINIMUM;
         }
 
         // everything is OK
         return null;
     }
 
-    /**
-     * Check if this application has a document by type
-     */
-    public boolean hasDocument(String documentType) {
-        if (documentType == null) {
+    public boolean hasDocument(DocumentType type) {
+        if (type == null) {
             return false;
         }
-        for (Document doc : documents) {
-            if (doc != null && documentType.equals(doc.getType())) {
+        for (Document d : documents) {
+            if (d != null && d.getType() == type) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * Get a document by type
-     */
-    public Document getDocument(String documentType) {
-        if (documentType == null) {
+    public Document getDocument(DocumentType type) {
+        if (type == null) {
             return null;
         }
-        for (Document doc : documents) {
-            if (doc != null && documentType.equals(doc.getType())) {
-                return doc;
+        for (Document d : documents) {
+            if (d != null && d.getType() == type) {
+                return d;
             }
         }
         return null;

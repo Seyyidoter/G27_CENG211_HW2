@@ -28,8 +28,11 @@ public class CSVReader {
      * @param applicantsMap The map of Applicants to populate (ApplicantID -> Applicant).
      * @param familyInfoMap The map of FamilyInfo to populate (ApplicantID -> FamilyInfo).
      */
+    @SuppressWarnings("CallToPrintStackTrace")
     public void readData(String filePath, Map<String, Applicant> applicantsMap, Map<String, FamilyInfo> familyInfoMap) {
-        
+        if (applicantsMap == null || familyInfoMap == null) {
+            throw new IllegalArgumentException("Maps cannot be null");
+        }
         // This map temporarily groups all lines by applicant ID.
         Map<String, List<String[]>> linesByApplicant = new HashMap<>();
 

@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -98,63 +97,10 @@ public class Applicant {
     }
 
     /**
-     * Check if this applicant has a specific document type.
-     */
-    public boolean hasDocument(String type) {
-        if (type == null) {
-            return false;
-        }
-        for (Document d : documents) {
-            if (d != null && type.equals(d.getType())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Find a document by its type.
-     */
-    public Document getDocument(String type) {
-        if (type == null) {
-            return null;
-        }
-        for (Document d : documents) {
-            if (d != null && type.equals(d.getType())) {
-                return d;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Set transcript status.
      */
     public void setTranscriptValid(boolean valid) {
         this.transcriptValid = valid;
-    }
-
-    /**
-     * Find average impact factor of all publications.
-     * Returns 0 if there are no publications.
-     */
-    public double averageImpactFactor() {
-        if (publications.isEmpty()) {
-            return 0.0;
-        }
-
-        double sum = 0.0;
-        int count = 0;
-        for (Publication p : publications) {
-            if (p != null) {
-                double val = p.getImpactFactor();
-                if (val >= 0.0) {
-                    sum += val;
-                    count++;
-                }
-            }
-        }
-        return count == 0 ? 0.0 : (sum / count);
     }
 
     // Getters
@@ -182,14 +128,14 @@ public class Applicant {
      * Get a safe copy of documents list.
      */
     public List<Document> getDocuments() {
-        return Collections.unmodifiableList(new ArrayList<>(documents));
+        return new ArrayList<>(documents);
     }
 
     /**
      * Get a safe copy of publications list.
      */
     public List<Publication> getPublications() {
-        return Collections.unmodifiableList(new ArrayList<>(publications));
+        return new ArrayList<>(publications);
     }
 
     @Override

@@ -29,7 +29,7 @@ public final class FamilyInfo {
         return dependents;
     }
 
-    @Override public String toString() { // If we don't use, we can delete it.
+    @Override public String toString() {
         return "FamilyInfo{income=" + familyIncome + ", dependents=" + dependents + "}";
     }
 

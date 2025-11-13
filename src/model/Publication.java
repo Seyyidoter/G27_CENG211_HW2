@@ -30,7 +30,7 @@ public final class Publication {
         return impactFactor;
     }
 
-    @Override public String toString() { // If we don't use, we can delete it.
+    @Override public String toString() {
         return "Publication{'" + title + "', IF=" + impactFactor + "}";
     }
 

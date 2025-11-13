@@ -32,7 +32,7 @@ public final class Document {
         return durationInMonths;
     }
 
-    @Override public String toString() { // If we don't use, we can delete it.
+    @Override public String toString() {
         return "Document{type=" + type + ", duration=" + durationInMonths + " months}";
     }
 

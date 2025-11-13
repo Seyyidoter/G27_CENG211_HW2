@@ -4,29 +4,26 @@ import enums.AwardType;
 import enums.DocumentType;
 import enums.RejectionReason;
 import enums.ScholarshipCategory;
+import model.Applicant;
 import model.EvaluationResult;
-import model.FamilyInfo; // Import might be needed if base class changes, but not for now.
 
-//Merit-based Scholarship: Focuses on GPA and recommendations.
+// Merit-based Scholarship: Focuses on GPA and recommendations.
 public class MeritApplication extends Application {
 
     private static final String SCHOLARSHIP_TYPE = ScholarshipCategory.MERIT.toString();
-    private static final String REC = DocumentType.REC.name(); // Recommendation Letter
+    private static final DocumentType REC = DocumentType.REC; // Recommendation Letter
 
-    public MeritApplication(String applicantId, String name, double gpa, double income) {
-        super(applicantId, name, gpa, income);
+    public MeritApplication(Applicant applicant) {
+        super(applicant);
     }
 
-    //@Override
-    //Implements the specific evaluation rules for a Merit-based Scholarship.
+    // Implements the specific evaluation rules for a Merit-based Scholarship.
     @Override
     public EvaluationResult evaluate() {
         // --- 1. Perform General Checks (Priority 1-3 Rejections) ---
-        String generalCheckRejection = performGeneralChecks();
-        if (generalCheckRejection != null) {
-            // Map the string result back to the specific RejectionReason enum
-            RejectionReason reason = mapGeneralRejection(generalCheckRejection);
-            return new EvaluationResult(applicantId, name, SCHOLARSHIP_TYPE, reason.getMessage());
+        RejectionReason generalReason = performGeneralChecks();
+        if (generalReason != null) {
+            return new EvaluationResult(applicantId, name, SCHOLARSHIP_TYPE, generalReason.getMessage());
         }
 
         AwardType awardType;
@@ -40,7 +37,7 @@ public class MeritApplication extends Application {
         } else {
             // GPA < 3.00 -> Rejected (Specific rule)
             awardType = null;
-            specificRejectionReason = "GPA below 3.0"; // Note: This is a specific reason, not one of the priority enums.
+            specificRejectionReason = "GPA below 3.0";
         }
 
         // --- 3. Final Decision ---
@@ -57,19 +54,5 @@ public class MeritApplication extends Application {
         }
 
         return new EvaluationResult(applicantId, name, SCHOLARSHIP_TYPE, awardType.toString(), duration);
-    }
-
-    //Helper to map the string from the parent's general check to the enum.
-    private RejectionReason mapGeneralRejection(String checkResult) {
-        if (checkResult.contains("Enrollment")) {
-            return RejectionReason.MISSING_ENROLLMENT;
-        }
-        if (checkResult.contains("Transcript")) {
-            return RejectionReason.MISSING_TRANSCRIPT;
-        }
-        if (checkResult.contains("2.50")) {
-            return RejectionReason.GPA_BELOW_MINIMUM;
-        }
-        return RejectionReason.MISSING_MANDATORY_DOCUMENT;
     }
 }
